@@ -7,12 +7,14 @@ public class EmployeeView {
 	private String name;
 	private String email;
 	private String bloodGroup;
+	private AddressView address;
 
-	public EmployeeView(Employee employee) {
+	public EmployeeView(Employee employee, AddressView address) {
 		this.id = employee.getId();
 		this.name = employee.getName();
 		this.email = employee.getEmail();
 		this.bloodGroup = employee.getBloodGroup();
+		this.address = address;
 	}
 
 	public int getId() {
@@ -47,4 +49,11 @@ public class EmployeeView {
 		this.bloodGroup = bloodGroup;
 	}
 
+	public AddressView getAddress() {
+		return address;
+	}
+
+	public void setAddress(AddressView address) {
+		this.address = address;
+	}
 }
