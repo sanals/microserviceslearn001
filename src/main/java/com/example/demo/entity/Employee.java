@@ -21,7 +21,7 @@ public class Employee {
 	@Column(name = "email")
 	private String email;
 	
-	@Column(name = "bloodgroup")
+	@Column(name = "blood_group")
 	private String bloodGroup;
 
 	public int getId() {

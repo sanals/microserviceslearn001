@@ -9,4 +9,6 @@ public interface EmployeeService {
 	public EmployeeView getEmployeeDetailsModelMapper(Integer id) throws Exception;
 
 	public AddressView fetchAddressWithRestTemplateForEmployee(Integer id) throws Exception;
+
+	public AddressView fetchAddressWithWebClientForEmployee(Integer id) throws Exception;
 }
