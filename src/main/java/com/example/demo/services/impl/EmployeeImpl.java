@@ -12,9 +12,11 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Employee;
+import com.example.demo.openfeignclient.AddressClient;
 import com.example.demo.repository.EmployeeRepo;
 import com.example.demo.services.EmployeeService;
 import com.example.demo.view.EmployeeView;
@@ -39,6 +41,9 @@ public class EmployeeImpl implements EmployeeService{
 	@Autowired
 	private WebClient webClient;
 	
+	@Autowired
+	AddressClient feignAddressClient; 
+	
 //	@Autowired
 //	private DiscoveryClient discoveryClient;
 	
@@ -54,14 +59,14 @@ public class EmployeeImpl implements EmployeeService{
 	@Override
 	public EmployeeView getEmployeeDetails(Integer id) throws Exception {
 		Employee employee = employeeRepo.findById(id).orElseThrow(()-> new Exception("Unable to fetch Employee"));
-		return new EmployeeView(employee, fetchAddressWithRestTemplateForEmployee(id));
+		return new EmployeeView(employee, fetchAddressWithFeignClientForEmployee(id));
 	}
 	
 	@Override
 	public EmployeeView getEmployeeDetailsModelMapper(Integer id) throws Exception {
 		Employee employee = employeeRepo.findById(id).orElseThrow(()-> new Exception("Unable to fetch Employee"));
 		EmployeeView employeeView = modelMapper.map(employee, EmployeeView.class);
-		employeeView.setAddress(fetchAddressWithRestTemplateForEmployee(id));
+		employeeView.setAddress(fetchAddressWithFeignClientForEmployee(id));
 		return employeeView;
 	}
 
@@ -93,6 +98,13 @@ public class EmployeeImpl implements EmployeeService{
 				.retrieve()
 				.bodyToMono(AddressView.class)
 				.block();
+	}
+
+	@Override
+	public AddressView fetchAddressWithFeignClientForEmployee(Integer id) throws Exception {
+		System.out.println("in fetchAddressWithFeignClientForEmployee");
+		ResponseEntity<AddressView> entity = feignAddressClient.getEmployeeByEmployeeId(id);
+		return entity.getBody();
 	}
 
 }

@@ -17,7 +17,7 @@ public class EmployeeController {
 	EmployeeService employeeService;
 
 	@GetMapping("/employees/{id}")
-	public ResponseEntity<EmployeeView> getEmployees(@PathVariable("id") Integer id) throws Exception {
+	public ResponseEntity<EmployeeView> getEmployees(@PathVariable Integer id) throws Exception {
 		return ResponseEntity.status(HttpStatus.OK).body(employeeService.getEmployeeDetails(id));
 	}
 }

@@ -11,4 +11,6 @@ public interface EmployeeService {
 	public AddressView fetchAddressWithRestTemplateForEmployee(Integer id) throws Exception;
 
 	public AddressView fetchAddressWithWebClientForEmployee(Integer id) throws Exception;
+
+	public AddressView fetchAddressWithFeignClientForEmployee(Integer id) throws Exception;
 }
